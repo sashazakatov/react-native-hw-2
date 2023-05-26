@@ -1,6 +1,25 @@
-import { Pressable, Text, TextInput, View, StyleSheet, ImageBackground } from 'react-native';
+import { useEffect, useState } from 'react';
+import { Pressable, Text, TextInput, View, StyleSheet, ImageBackground, Keyboard } from 'react-native';
 
 const RegistrationScreen = () => {
+    const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
+
+    useEffect(() => {
+      const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
+        setIsKeyboardOpen(true);
+      });
+  
+      const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
+        setIsKeyboardOpen(false);
+      });
+  
+      return () => {
+        keyboardDidShowListener.remove();
+        keyboardDidHideListener.remove();
+      };
+    }, []);
+
+
     return(
         <ImageBackground 
             source={require('../assets/images/background.jpg')}
@@ -24,10 +43,14 @@ const RegistrationScreen = () => {
                     style={[style.input, {marginBottom: 43}]}
                     placeholder='Пароль'
                 />
-                <Pressable style={style.button}>
-                    <Text style={{color: '#FFFFFF', fontSize: 16, }}>Нажми меня</Text>
-                </Pressable>
-                <Text style={style.text}>Вже є акаунт? Увійти</Text>
+                { !isKeyboardOpen && (
+                    <>
+                        <Pressable style={style.button}>
+                            <Text style={{color: '#FFFFFF', fontSize: 16, }}>Нажми меня</Text>
+                        </Pressable>
+                        <Text style={style.text}>Вже є акаунт? Увійти</Text>
+                    </>
+                )}
             </View>
         </ImageBackground>
     );
@@ -72,9 +95,6 @@ const style = StyleSheet.create({
         borderRadius: 5,
         padding: 10,
         marginBottom: 16,
-        '&:focus': {
-            borderColor: '#FF6C00',
-        },
     },
     button: {
         display: 'flex',
