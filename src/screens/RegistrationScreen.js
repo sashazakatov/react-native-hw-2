@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react';
-import { Pressable, Text, TextInput, View, StyleSheet, ImageBackground, Keyboard } from 'react-native';
+import { Pressable, Text, TextInput, View, StyleSheet, ImageBackground, Keyboard, Image } from 'react-native';
+
+// import { RiAddCircleLine } from "react-icons/ri";
+// import { AiFillAccountBook } from "react-icons/ai";
 
 const RegistrationScreen = () => {
     const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
@@ -28,7 +31,9 @@ const RegistrationScreen = () => {
         >
             <View style={style.form}>
                 <View style={style.photo}>
-                    {/* <Button title='add'/> */}
+                    <Pressable style={style.add}>
+                        <Image source={require('../assets/icons/Union.svg')} />
+                    </Pressable>
                 </View>
                 <Text style={style.title}>Реєстрація</Text>
                 <TextInput
@@ -79,6 +84,10 @@ const style = StyleSheet.create({
         height: 120,
         borderRadius: 16,
         marginBottom:32,
+        transform: [{ translateY: -50 }],
+    },
+    add: {
+        position: "absolute",
         transform: [{ translateY: -50 }],
     },
     title: {
